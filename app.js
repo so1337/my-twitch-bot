@@ -69,7 +69,7 @@ client.on('chat', function(channel, userstate, message, self) {
   var msg,
     args = message.split(' ')
 
-  switch (args[0]) {
+  switch (args[0].toLowerCase()) {
     case '!uptime':
       lib.channelStatus().then(function(resp) {
         if (resp.stream) {
