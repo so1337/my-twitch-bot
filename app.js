@@ -170,7 +170,7 @@ client.on('chat', function(channel, userstate, mssg, self) {
     kappaFeed = kappaFeed + countedWords['Kappa'];
 
     if (50 > kappaFeed && kappaFeed > 10 && flag) {
-      lib.sendMsg(client, countedWords['Kappa'] + ' Kappa собрано. Вы прокормили маленькую деревушку питательным Kappa');
+      lib.sendMsg(client, kappaFeed + ' Kappa собрано. Вы прокормили маленькую деревушку питательным Kappa');
       flag = false;
     }
 
