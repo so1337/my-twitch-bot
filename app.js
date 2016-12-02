@@ -24,6 +24,7 @@ var streamstatus, pidors = [],
   justReloaded = {},
   lastJoke = 0,
   popPidor=0,
+  ebyni={},
   flag = true,
   kappaFeed = 0;
 
@@ -138,6 +139,26 @@ client.on('chat', function(channel, userstate, mssg, self) {
       }
       break;
     case '!addpidor':
+      if(args.length == 1){
+        if(!ebyni[userstate.username]){
+        lib.sendMsg(client, "Надо указывать кого пидором-то делаешь, далбон.");
+        console.log(ebyni[userstate.username]);
+        ebyni[userstate.username] = 1
+      }else{
+        ebyni[userstate.username] = ebyni[userstate.username] + 1;
+      }
+
+
+        if(ebyni[userstate.username] == 2){
+          lib.sendMsg(client, "Далбон, отдупли плиз что я писал тебе.");
+        }
+        if(ebyni[userstate.username] == 3){
+          ebyni[userstate.username] = false;
+
+          lib.silenceUser(client,userstate.username,Math.random() * 1000,'@'+userstate.username+', Завались на пару минуток.')
+        }
+        break;
+      }
       var name = args[1].toLowerCase();
       if (args[1] == (name.indexOf(config.CHANNEL) !== -1) || (name.indexOf(config.USERNAME) !== -1)) {
         args[1] = userstate.username
@@ -176,6 +197,14 @@ client.on('chat', function(channel, userstate, mssg, self) {
     lib.sendMsg(client, msg);
   }
   if (mssg.indexOf('Kappa') == !-1) {
+    var end;
+    if (countedWords['Kappa'] == 1) {
+      end = 'отправляется';
+    } else {
+      end = 'отправляются';
+    }
+
+    lib.sendMsg(client, 'Еще ' + countedWords['Kappa'] + ' Kappa ' + end + ' бедным голодающим ниггерам. За стрим собранно уже ' + kappaFeed + ' Kappa для ниггретосов. # Kappa _ПИТАТЕЛЬНЕЙ_ЛАЙКОВ');
     var countedWords = _.countBy(mssg.split(' '), _.identity);
     kappaFeed = kappaFeed + countedWords['Kappa'];
 
@@ -192,13 +221,6 @@ client.on('chat', function(channel, userstate, mssg, self) {
       lib.sendMsg(client, kappaFeed + ' Kappa собрано. Вы прокормили здоровенную мамку ' + userstate.username + '   питательным Kappa');
       flag = false;
     }
-    var end;
-    if (countedWords['Kappa'] == 1) {
-      end = 'отправляется';
-    } else {
-      end = 'отправляются';
-    }
 
-    lib.sendMsg(client, 'Еще ' + countedWords['Kappa'] + ' Kappa ' + end + ' бедным голодающим ниггерам. За стрим собранно уже ' + kappaFeed + ' Kappa для ниггретосов. # Kappa _ПИТАТЕЛЬНЕЙ_ЛАЙКОВ');
   }
 })
