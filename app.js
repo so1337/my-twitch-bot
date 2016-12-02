@@ -23,6 +23,7 @@ var streamstatus, pidors = [],
   jokeTime = 1000 * 60 * 2,
   justReloaded = {},
   lastJoke = 0,
+  popPidor=0,
   flag = true,
   kappaFeed = 0;
 
@@ -107,10 +108,13 @@ client.on('chat', function(channel, userstate, mssg, self) {
         case '!getstreamstatus':
             msg = 'Прочитать высказывание последнего эксперта в стримах о текущем состоянии стрима. По дефолту - жара'
           break;
+        case '!clearlastpidor'
+            msg='Удалить последнего пидрилу в списке пидоров. Доступно 1 раз в 4 минуты.'
+          break;
       }
       break;
     case '!faq':
-      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать* . Отправляю Kappa голодающим неграм'
+      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus,!clearlastpidor, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать* . Отправляю Kappa голодающим неграм'
       break;
     case '!setstatus':
       delete args[0];
@@ -146,14 +150,20 @@ client.on('chat', function(channel, userstate, mssg, self) {
       });
       break;
     case '!clearpidors':
+      if(userstate.username == config.CHANNEL){
       pidors = []
-      msg = "ЕБАТЬ ПАЛИТЕ. ОН ЧИСТИТ ПИДОРОВ."
+      msg = "ЕБАТЬ ПАЛИТЕ. ОН ЧИСТИТ ПИДОРОВ."}
       break;
     case '!clearlastpidor':
+    if((Date.now() - popPidor) > (jokeTime * 2))
+      {
       var last = pidors.pop();
       if (!last) return;
       msg = last.name + " БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
-      break;
+    }else{
+      msg = "Очистка одного пидор с конца списка юзабельна 1 раз в 4 минуты, але, не заябуй.";
+
+    }break;
     case '!getpidors':
       msg = '';
       _.forEach(pidors, function(el) {
@@ -183,11 +193,12 @@ client.on('chat', function(channel, userstate, mssg, self) {
       flag = false;
     }
     var end;
-    if (countedWords['kappa'] == 1) {
+    if (countedWords['Kappa'] == 1) {
       end = 'отправляется';
     } else {
       end = 'отправляются';
     }
+
     lib.sendMsg(client, 'Еще ' + countedWords['Kappa'] + ' Kappa ' + end + ' бедным голодающим ниггерам. За стрим собранно уже ' + kappaFeed + ' Kappa для ниггретосов. # Kappa _ПИТАТЕЛЬНЕЙ_ЛАЙКОВ');
   }
 })
