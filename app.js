@@ -108,7 +108,7 @@ client.on('chat', function(channel, userstate, mssg, self) {
         case '!getstreamstatus':
             msg = 'Прочитать высказывание последнего эксперта в стримах о текущем состоянии стрима. По дефолту - жара'
           break;
-        case '!clearlastpidor'
+        case '!clearlastpidor':
             msg='Удалить последнего пидрилу в списке пидоров. Доступно 1 раз в 4 минуты.'
           break;
       }
