@@ -144,9 +144,10 @@ client.on('chat', function(channel, userstate, message, self) {
     case '!clearpidors':
       pidors = []
       msg = "ЕБАТЬ ПАЛИТЕ. ОН ЧИСТИТ ПИДОРОВ."
+      break;
     case '!clearlastpidor':
       var last = pidors.pop();
-      msg = lasat.name+" БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
+      msg = last.name+" БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
       break;
     case '!getpidors':
       msg ='';
