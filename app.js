@@ -22,7 +22,9 @@ var fetch = require('node-fetch');
 var streamstatus, pidors = [],
   jokeTime = 1000 * 60 * 2,
   justReloaded = {},
-  lastJoke = 0;
+  lastJoke = 0,
+  flag = true,
+  kappaFeed = 0;
 
 client.connect();
 
@@ -63,11 +65,12 @@ client.on('part', function(channel, username, self) {
   }, 1000 * 60 * 5)
 
 });
-client.on('chat', function(channel, userstate, message, self) {
+client.on('chat', function(channel, userstate, mssg, self) {
   if (self) return;
 
-  var msg,
+  var msg, message = mssg.toLowerCase(),
     args = message.split(' ')
+
 
   switch (args[0].toLowerCase()) {
     case '!uptime':
@@ -107,7 +110,7 @@ client.on('chat', function(channel, userstate, message, self) {
       }
       break;
     case '!faq':
-      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать*'
+      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать* . Отправляю Kappa голодающим неграм'
       break;
     case '!setstatus':
       delete args[0];
@@ -131,7 +134,8 @@ client.on('chat', function(channel, userstate, message, self) {
       }
       break;
     case '!addpidor':
-      if (args[1] == config.CHANNEL) {
+      var name = args[1].toLowerCase();
+      if (args[1] == (name.indexOf(config.CHANNEL) !== -1) || (name.indexOf(config.USERNAME) !== -1)) {
         args[1] = userstate.username
       }
       var randPerc = Math.floor((Math.random() * 100) + 1);
@@ -147,18 +151,43 @@ client.on('chat', function(channel, userstate, message, self) {
       break;
     case '!clearlastpidor':
       var last = pidors.pop();
-      msg = last.name+" БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
+      if (!last) return;
+      msg = last.name + " БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
       break;
     case '!getpidors':
-      msg ='';
-      _.forEach(pidors,function(el){
+      msg = '';
+      _.forEach(pidors, function(el) {
 
-        msg = msg + el.name+" пидор на "+el.perc+". \n"
+        msg = msg + el.name + " пидор на " + el.perc + ". \n"
       });
       break;
   }
   if (msg && msg.length) {
     lib.sendMsg(client, msg);
   }
+  if (mssg.indexOf('Kappa') == !-1) {
+    var countedWords = _.countBy(mssg.split(' '), _.identity);
+    kappaFeed = kappaFeed + countedWords['Kappa'];
 
+    if (50 > kappaFeed && kappaFeed > 10 && flag) {
+      lib.sendMsg(client, countedWords['Kappa'] + ' Kappa собрано. Вы прокормили маленькую деревушку питательным Kappa');
+      flag = false;
+    }
+
+    if (100 > kappaFeed && kappaFeed > 50 && !flag) {
+      lib.sendMsg(client, kappaFeed + ' Kappa собрано. Вы прокормили поселок городского типа питательным Kappa');
+      flag = true;
+    }
+    if (kappaFeed > 100 && flag) {
+      lib.sendMsg(client, kappaFeed + ' Kappa собрано. Вы прокормили здоровенную мамку ' + userstate.username + '   питательным Kappa');
+      flag = false;
+    }
+    var end;
+    if (countedWords['kappa'] == 1) {
+      end = 'отправляется';
+    } else {
+      end = 'отправляются';
+    }
+    lib.sendMsg(client, 'Еще ' + countedWords['Kappa'] + ' Kappa ' + end + ' бедным голодающим ниггерам. За стрим собранно уже ' + kappaFeed + ' Kappa для ниггретосов. # Kappa _ПИТАТЕЛЬНЕЙ_ЛАЙКОВ');
+  }
 })
