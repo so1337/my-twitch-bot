@@ -1,0 +1,13 @@
+{
+  "name": "twitch-bot",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Nikita Lisnjak",
+  "dependencies": {
+    "moment": "^2.15.2",
+    "node-fetch": "^1.6.3",
+    "tmi.js": "^1.1.2",
+    "lodash": "^4.2.0"
+  }
+}
