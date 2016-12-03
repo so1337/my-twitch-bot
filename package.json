@@ -5,9 +5,11 @@
   },
   "author": "Nikita Lisnjak",
   "dependencies": {
+    "lodash": "^4.2.0",
     "moment": "^2.15.2",
     "node-fetch": "^1.6.3",
-    "tmi.js": "^1.1.2",
-    "lodash": "^4.2.0"
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "tmi.js": "^1.1.2"
   }
 }

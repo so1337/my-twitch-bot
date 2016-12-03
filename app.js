@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var config = require('./config');
 var lib = require('./lib');
 var moment = require('moment');
@@ -25,18 +25,18 @@ var streamstatus, pidors = [],
   lastJoke = 0,
   popPidor = 0,
   ebyni = {},
-  ebyni2={},
+  ebyni2 = {},
   flag = true,
   kappaFeed = 0;
 
 client.connect();
 
 client.on('connected', function(address, port) {
-  lib.sendMsg(client, 'БОТ ПРИШЕЛ ГОВНА НАШЕЛ. ПИШИТЕ МНЕ СВОЕ ДЕРЬМО. Мой словарь на !faq')
+  lib.sendMsg(client, 'БОТ ПРИШЕЛ ГОВНА НАШЕЛ. ПИШИТЕ МНЕ СВОЕ ДЕРЬМО. Мой словарь на !faq');
 });
 
 client.on('clearchat', function(channel) {
-  lib.sendMsg(client, 'ЗАБУДЬТЕ НАХУЙ ЧТО ВЫ ЗДЕСЬ ВИДЕЛИ. МЫ ВАМ СТЕРЛИ ПАМЯТЬ КАК ЛЮДИ В ЧЕРНОМ.')
+  lib.sendMsg(client, 'ЗАБУДЬТЕ НАХУЙ ЧТО ВЫ ЗДЕСЬ ВИДЕЛИ. МЫ ВАМ СТЕРЛИ ПАМЯТЬ КАК ЛЮДИ В ЧЕРНОМ.');
 });
 
 client.on('join', function(channel, username, self) {
@@ -54,7 +54,7 @@ client.on('subscription', function(channel, username, method) {
 });
 client.on('notice', function(channel, msgid, message) {
   console.log('msgid: ', msgid);
-  console.log('message: ', message)
+  console.log('message: ', message);
 });
 client.on('part', function(channel, username, self) {
   if (self) return;
@@ -62,17 +62,17 @@ client.on('part', function(channel, username, self) {
   setTimeout(function() {
     if (justReloaded[username]) {
       if (username == config.CHANNEL) lib.sendMsg(client, 'ГЛАВАРЬ БАНДЫ ПОКИНУЛ ДВИЖ.');
-      else lib.sendMsg(client,'@' +username + ' ПОКИНУЛ ДВИЖ. НУ И ХУЙ С НИМ.');
+      else lib.sendMsg(client, '@' + username + ' ПОКИНУЛ ДВИЖ. НУ И ХУЙ С НИМ.');
       delete justReloaded[username];
     }
-  }, 1000 * 60 * 5)
+  }, 1000 * 60 * 5);
 
 });
 client.on('chat', function(channel, userstate, message, self) {
   if (self) return;
 
   var msg,
-    args = message.split(' ')
+    args = message.split(' ');
 
 
   switch (args[0].toLowerCase()) {
@@ -90,34 +90,38 @@ client.on('chat', function(channel, userstate, message, self) {
       });
       break;
     case '!info':
-      if(args.length == 1)args[1]='';
+      if (args.length == 1) args[1] = '';
       switch (args[1].toLowerCase()) {
-        default: msg = 'вы забыли указать комманду или ввели какую-то хуйню. Вот пример правильного запроса инфы `!info !uptime`'
+        default: msg = 'вы забыли указать комманду или ввели какую-то хуйню. Вот пример правильного запроса инфы `!info !uptime`';
         break;
         case '!uptime':
-            msg = 'Сколько стрим уже живет'
+            msg = 'Сколько стрим уже живет';
           break;
         case '!addpidor':
-            msg = 'Добавить имя в список пидоров. Так же добавится сгенерированный по самому охуенному в мире алгоритму процент пидорства, который генерируется базируясь на образе жизни пациента, биографии, роде и т.д.'
+            msg = 'Добавить имя в список пидоров. Так же добавится сгенерированный по самому охуенному в мире алгоритму процент пидорства, который генерируется базируясь на образе жизни пациента, биографии, роде и т.д.';
           break;
         case '!getpidors':
-            msg = 'Вывести список пидоров и процент их пидорства'
+            msg = 'Вывести список пидоров и процент их пидорства';
+          break;
         case '!setstatus':
-            msg = 'Высказать мнение о стриме. Пример: `говно`, `хуевый`, `жара ваще огоонь`, `стример питух` и т.д. Любая строка после комманды - мнение. Каждое новое мнение перезаписывает статус стрима'
+            msg = 'Высказать мнение о стриме. Пример: `говно`, `хуевый`, `жара ваще огоонь`, `стример питух` и т.д. Любая строка после комманды - мнение. Каждое новое мнение перезаписывает статус стрима';
           break;
         case '!joke':
-            msg = 'Спиздануть рандомную шутку с башика'
+            msg = 'Спиздануть рандомную шутку с башика';
           break;
         case '!getstatus':
-            msg = 'Прочитать высказывание последнего эксперта в стримах о текущем состоянии стрима. По дефолту - жара'
+            msg = 'Прочитать высказывание последнего эксперта в стримах о текущем состоянии стрима. По дефолту - жара';
           break;
         case '!poplastpidor':
-            msg = 'Удалить последнего пидрилу в списке пидоров. Доступно 1 раз в 4 минуты.'
+            msg = 'Удалить последнего пидрилу в списке пидоров. Доступно 1 раз в 2 минуты.';
+          break;
+        case '!toukr':
+            msg='Перевожу текст на украинский язык. Используется апишка Яндекс.Перевода - поэтому перевод может быть хуеват иногда. Но есишо - я поясню. Пример использования: `!toukr Привет, отсоси мой пенис`';
           break;
       }
       break;
     case '!faq':
-      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus, !poplastpidor, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать* . Отправляю Kappa голодающим неграм'
+      msg = 'Я умею: !uptime, !addpidor, !setstatus, !getpidors, !getstatus, !poplastpidor, !toukr, !joke и еще пару секретных. Для поясненией !info *комманда про которую хочешь узнать* . Отправляю Kappa голодающим неграм';
       break;
     case '!setstatus':
       delete args[0];
@@ -128,7 +132,7 @@ client.on('chat', function(channel, userstate, message, self) {
       msg = 'Последний эксперт в стримах сказал, что стрим - `' + streamstatus + '`';
       break;
     case '!joke':
-      console.log((Date.now() - lastJoke))
+
       if ((Date.now() - lastJoke) > jokeTime) {
         lastJoke = Date.now();
         lib.getJokes().then(function(data) {
@@ -136,16 +140,16 @@ client.on('chat', function(channel, userstate, message, self) {
           lib.sendMsg(client, joke.elementPureHtml.replace(/<[A-Za-z =''#0-9]+\/?>/g, '').replace(/&[A-Za-z]+;/g, ''), channel);
         }, function(err) {
           console.log('err', err);
-        })
+        });
       } else {
-        msg = 'Охладись на пару минуток, юморист.'
+        msg = 'Охладись на пару минуток, юморист.';
       }
       break;
     case '!addpidor':
       if (args.length == 1) {
         if (!ebyni[userstate.username]) {
           lib.sendMsg(client, "Надо указывать кого пидором-то делаешь, далбон.");
-          ebyni[userstate.username] = 1
+          ebyni[userstate.username] = 1;
         } else {
           ebyni[userstate.username] = ebyni[userstate.username] + 1;
         }
@@ -155,16 +159,16 @@ client.on('chat', function(channel, userstate, message, self) {
         if (ebyni[userstate.username] == 3) {
           ebyni[userstate.username] = false;
 
-          lib.silenceUser(client, userstate.username, Math.random() * 1000, '@' + userstate.username + ' , Завались на пару минуток.')
+          lib.silenceUser(client, userstate.username, Math.random() * 1000, '@' + userstate.username + ' , Завались на пару минуток.');
         }
         break;
       }
       var name = args[1].toLowerCase();
-      if (args[1] == (name.indexOf(config.CHANNEL) !== -1) || (name.indexOf(config.USERNAME) !== -1)) {
-        args[1] = '@'+userstate.username
+      if ((name.indexOf(config.CHANNEL) !== -1) || (name.indexOf(config.USERNAME) !== -1)) {
+        args[1] = '@' + userstate.username;
       }
       var randPerc = Math.floor((Math.random() * 100) + 1);
-      msg = args[1] + ' внесен в список пидоров.Он пидор на ' + randPerc + '%'
+      msg = args[1] + ' внесен в список пидоров.Он пидор на ' + randPerc + '%';
       pidors.push({
         name: args[1],
         perc: randPerc + '%'
@@ -172,58 +176,72 @@ client.on('chat', function(channel, userstate, message, self) {
       break;
     case '!clearpidors':
       if (userstate.username == config.CHANNEL) {
-        pidors = []
-        msg = "ЕБАТЬ ПАЛИТЕ. ОН ЧИСТИТ ПИДОРОВ."
+        pidors = [];
+        msg = "ЕБАТЬ ПАЛИТЕ. ОН ЧИСТИТ ПИДОРОВ.";
+      }
+      break;
+    case '!toukr':
+      if(args.length == 1){
+            msg = "НАДО И ПЕРЕВОДИТЬ ЧЕ-ТО ДАЛБОН. ХУЛИ ТЫ ХУЙНЮ ТЫЧЕШЬ.";
+            break;
+      }else{
+        delete args[0];
+        var gotext = _.join(args, ' ');
+        lib.translateMsg(gotext).then(function (res) {
+            lib.sendMsg(client,'А НА УКРАИНСКОМ ЭТО ЗВУЧИТ ТАК: `'+ JSON.parse(res).text + ' `. ТЫ ОХУЕЛ, ДА? ВООБЩЕ ПРОЧИТАТЬ СМОГ?');
+        });
+
       }
       break;
     case '!poplastpidor':
-      if(pidors.length == 0){
+      if (pidors.length === 0) {
         msg = "СПИСОК ПИДОРОВ ЧИСТ. ВСТАВЬТЕ ПИДОРОВ.";
         break;
       }
-      
-      if ((Date.now() - popPidor) > jokeTime)  {
+
+      if ((Date.now() - popPidor) > jokeTime) {
         popPidor = Date.now();
         var last = pidors.pop();
 
         msg = last.name + " БЫЛ ОШИБОЧНЫМ ПИДОРОМ И ЕГО КАРМА ОЧИЩЕННА";
       } else {
 
-            if (!ebyni2[userstate.username]) {
-                msg = "Очистка одного пидора с конца списка юзабельна 1 раз в 2 минуты, але, не заябуй.";
-              ebyni2[userstate.username] = 1
-            }else{
-                if(ebyni2[userstate.username]==1)msg = "Очистка одного пидора с конца списка юзабельна 1 раз в 2 минуты, ты какой-то очень тупой?";
-                ebyni2[userstate.username] = ebyni2[userstate.username] + 1;
-            }
-            if (ebyni2[userstate.username] == 2) {
-                msg = " 1 раз в 2 минуты можна.Далбон, отдупляй вообще что я пишу. Или уебу хуем."
-            }
-            if (ebyni2[userstate.username] == 3) {
-              ebyni2[userstate.username] = false;
+        if (!ebyni2[userstate.username]) {
+          msg = "Очистка одного пидора с конца списка юзабельна 1 раз в 2 минуты, але, не заябуй.";
+          ebyni2[userstate.username] = 1;
+        } else {
+          if (ebyni2[userstate.username] == 1) msg = "Очистка одного пидора с конца списка юзабельна 1 раз в 2 минуты, ты какой-то очень тупой?";
+          ebyni2[userstate.username] = ebyni2[userstate.username] + 1;
+        }
+        if (ebyni2[userstate.username] == 2) {
+          msg = " 1 раз в 2 минуты можна.Далбон, отдупляй вообще что я пишу. Или уебу хуем.";
+        }
+        if (ebyni2[userstate.username] == 3) {
+          ebyni2[userstate.username] = false;
 
-              lib.silenceUser(client, userstate.username, Math.random() * 1000, '@' + userstate.username + ', я тебя так уебал хуем, что ты на пару минут заткнулся.')
-            }
+          lib.silenceUser(client, userstate.username, Math.random() * 1000, '@' + userstate.username + ', я тебя так уебал хуем, что ты на пару минут заткнулся.');
+        }
 
 
       }
       break;
     case '!getpidors':
-    if(pidors.length == 0){
-      msg = "СПИСОК ПИДОРОВ ЧИСТ. ВСТАВЬТЕ ПИДОРОВ.";
-      break;
-    }else{
-      msg = '';
-      _.forEach(pidors, function(el) {
+      if (pidors.length === 0) {
+        msg = "СПИСОК ПИДОРОВ ЧИСТ. ВСТАВЬТЕ ПИДОРОВ.";
+        break;
+      } else {
+        msg = '';
+        _.forEach(pidors, function(el) {
 
-        msg = msg + el.name + " пидор на " + el.perc + ". \n"
-      });}
+          msg = msg + el.name + " пидор на " + el.perc + ". \n";
+        });
+      }
       break;
   }
   if (msg && msg.length) {
     lib.sendMsg(client, msg);
   }
-  if (message.indexOf('Kappa') == !-1) {
+  if (message.indexOf('Kappa') !== -1) {
     var countedWords = _.countBy(args, _.identity);
     var end;
     if (countedWords['Kappa'] == 1) {
@@ -251,4 +269,4 @@ client.on('chat', function(channel, userstate, message, self) {
     }
 
   }
-})
+});
